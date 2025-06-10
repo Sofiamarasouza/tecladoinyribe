@@ -1,45 +1,43 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Teclado Iny Ribè</title>
   <style>
     body {
-      font-family: sans-serif;
+      background-color: #fdfdfc;
+      font-family: Arial, sans-serif;
       padding: 20px;
-     // background: #f0f8ff;
-      background-color: white;
-    }
-    h2 {
-      color: #2c3e50;
-    }
-    .key {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      margin: 4px;
       text-align: center;
-      line-height: 50px;
-      border: 2px solid #3498db;
-      background: #ecf0f1;
-      color: #2c3e50;
-      cursor: pointer;
-      border-radius: 8px;
-      font-size: 20px;
     }
-    .key:hover {
-      background: #d0e9f7;
-    }
-    #output {
-      width: 100%;
-      height: 120px;
+    h1 {
       font-size: 24px;
-      margin-top: 20px;
-      padding: 10px;
-      border: 2px solid #3498db;
-      border-radius: 8px;
+      margin-bottom: 10px;
     }
-    p {
+    textarea {
+      width: 90%;
+      height: 100px;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .keyboard { display: inline-block; }
+    .row { display: flex; justify-content: center; margin: 5px 0; }
+    .key {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin: 2px;
+      padding: 12px;
+      min-width: 40px;
+      background-color: #fff;
+      cursor: pointer;
+      user-select: none;
+      font-size: 16px;
+    }
+    .key.wide { min-width: 80px; }
+    .key:hover { background-color: #eef; }
+ p {
      font-family: Arial, Helvetica, sans-serif;
      font-size: 12px;
      color: black;
@@ -68,42 +66,64 @@
    text-align: center;
    vertical-align: middle;
    }
-   <style>
-    body {
-      
-    }
-  </style>
   </style>
 </head>
 <body>
-  
-<center><h2>Teclado Virtual - Língua Iny Ribè</h2></center><br>
-  <div id="keyboard"></div>
-  <textarea id="output" placeholder="Digite aqui..."></textarea>
 
-  <script>
-    const keys = [
-      "W", "E", "È", "Ẽ","R", "T", "TX","Y", "Ỹ", "U", "Ù", "I", "Ĩ","O", "Ò", "Õ","A", "À", "Ã",     
-      "S", "D", "H", "J", "K", "L", "Ç", "Z", "X", "C", "V", "B", "N", "M", ",", ".", ";", ":", "?","    ", "←"
-    ];
+<h1>Teclado Digital Iny Ribè</h1>
+<textarea id="output" placeholder="Digite aqui..."></textarea>
 
-    const keyboardDiv = document.getElementById("keyboard");
-    const output = document.getElementById("output");
+<div class="keyboard">
+  <div class="row">
+    <div class="key">`</div><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div>
+    <div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div>
+    <div class="key">0</div><div class="key">-</div><div class="key">=</div><div class="key wide" onclick="removeChar()">⌫</div>
+  </div>
+  <div class="row">
+    <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div><div class="key">T</div>
+    <div class="key">Y</div><div class="key">U</div><div class="key">I</div><div class="key">O</div><div class="key">P</div>
+    <div class="key">´</div><div class="key">[</div><div class="key">]</div>
+  </div>
+  <div class="row">
+    <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div>
+    <div class="key">H</div><div class="key">J</div><div class="key">K</div><div class="key">L</div>
+    <div class="key">Ç</div><div class="key">~</div><div class="key">^</div>
+  </div>
+  <div class="row">
+    <div class="key">Z</div><div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div>
+    <div class="key">N</div><div class="key">M</div><div class="key">,</div><div class="key">.</div><div class="key">;</div>
+    <div class="key">/</div>
+  </div>
+  <div class="row">
+    <div class="key">ẽ</div><div class="key">ĩ</div><div class="key">ỹ</div><div class="key">tx</div>
+    <div class="key wide" onclick="addChar(' ')">Espaço</div>
+    <div class="key wide" onclick="clearText()">Limpar</div>
+  </div>
+</div>
 
-    keys.forEach(key => {
-      const btn = document.createElement("div");
-      btn.className = "key";
-      btn.textContent = key;
-      btn.onclick = () => {
-        if (key === "←") {
-          output.value = output.value.slice(0, -1);
-        } else {
-          output.value += key;
-        }
-      };
-      keyboardDiv.appendChild(btn);
-    });
-  </script>
+<script>
+  const output = document.getElementById('output');
+
+  function addChar(char) {
+    output.value += char;
+  }
+
+  function removeChar() {
+    output.value = output.value.slice(0, -1);
+  }
+
+  function clearText() {
+    output.value = '';
+  }
+
+  document.querySelectorAll('.key').forEach(key => {
+    if (!key.onclick) {
+      key.addEventListener('click', () => {
+        addChar(key.textContent);
+      });
+    }
+  });
+</script>
 <p>Versão online do teclado fruto da pesquisa <i>Teclado Iny Rybè: solução tecnológica para preservação da língua e cultura do povo Javaé</i> aprovada no 
 EDITAL N. 02/2024 FAPT/SEPLAN – Projeto REDE DESER, como parte da carteira de projetos do Centro De Desenvolvimento Regional (CDR SUL),  desenvolvida na Universidade de Gurupi (UnirG), vinculada aos grupos de pesquisa Observatório dos Povos Tradicionais do Tocantins (OPTTINS) e Processos Educativos, com apoio financeiro da  Fundação de Amparo à Pesquisa do Tocantins (FAPT).</p>
 <div class="tabela">
@@ -111,7 +131,7 @@ EDITAL N. 02/2024 FAPT/SEPLAN – Projeto REDE DESER, como parte da carteira de 
         <thead>
          <tr>
              <th>     </th>
-	     <th><img src="Unirg.png" width="80" height="70"></th>
+	     <th><img src="UnirG.png" width="80" height="70"></th>
              <th>     </th>
              <th>     </th>
              <th><img src="OPTTINS.png" width="70" height="60"></th>
